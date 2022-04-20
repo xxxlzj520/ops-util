@@ -17,13 +17,14 @@ func authDCdnPoint(accessKeyId, accessKeySecret, endpoint string) (_result *dcdn
 	_result, _err = dcdn20180115.NewClient(config)
 	return _result, _err
 }
-func RefreshDCdnObject(accessKeyId, accessKeySecret, endpoint, objectUrl string) error {
+func RefreshDCdnObject(accessKeyId, accessKeySecret, endpoint, objectUrl, objectType string) error {
 	client, err := authDCdnPoint(accessKeyId, accessKeySecret, endpoint)
 	if err != nil {
 		return err
 	}
 	refreshDcdnObjectCachesRequest := &dcdn20180115.RefreshDcdnObjectCachesRequest{
 		ObjectPath: tea.String(objectUrl),
+		ObjectType: tea.String(objectType),
 	}
 	_, err1 := client.RefreshDcdnObjectCaches(refreshDcdnObjectCachesRequest)
 	if err1 != nil {
