@@ -23,12 +23,42 @@ func RefreshDCdnObject(accessKeyId, accessKeySecret, endpoint, objectUrl, object
 		return err
 	}
 	refreshDcdnObjectCachesRequest := &dcdn20180115.RefreshDcdnObjectCachesRequest{
-		ObjectPath: tea.String(objectUrl),
 		ObjectType: tea.String(objectType),
+		ObjectPath: tea.String(objectUrl),
 	}
 	_, err1 := client.RefreshDcdnObjectCaches(refreshDcdnObjectCachesRequest)
 	if err1 != nil {
 		return err1
 	}
 	return nil
+}
+func UpdateDCdnDomain(accessKeyId, accessKeySecret, endpoint, objectUrl, sources string) error {
+	client, err := authDCdnPoint(accessKeyId, accessKeySecret, endpoint)
+	if err != nil {
+		return err
+	}
+	updateDcdnDomainRequest := &dcdn20180115.UpdateDcdnDomainRequest{
+		DomainName: tea.String(objectUrl),
+		Sources:    tea.String(sources),
+	}
+	_, err1 := client.UpdateDcdnDomain(updateDcdnDomainRequest)
+	if err1 != nil {
+		return err1
+	}
+	return nil
+}
+func DescribeDcdnDomainDetail(accessKeyId, accessKeySecret, endpoint, objectUrl string) (_result *dcdn20180115.DescribeDcdnDomainDetailResponse, _err error) {
+	client, err := authDCdnPoint(accessKeyId, accessKeySecret, endpoint)
+	if err != nil {
+		return nil, err
+	}
+	describeDcdnDomainDetailRequest := &dcdn20180115.DescribeDcdnDomainDetailRequest{
+		DomainName: tea.String(objectUrl),
+	}
+	response, _err := client.DescribeDcdnDomainDetail(describeDcdnDomainDetailRequest)
+	if _err != nil {
+		return nil, _err
+	}
+	//fmt.Println(response.Body.DomainDetail.Sources.Source)
+	return response, nil
 }
