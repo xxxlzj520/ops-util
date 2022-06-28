@@ -59,6 +59,5 @@ func DescribeDcdnDomainDetail(accessKeyId, accessKeySecret, endpoint, objectUrl 
 	if _err != nil {
 		return nil, _err
 	}
-	//fmt.Println(response.Body.DomainDetail.Sources.Source)
 	return response, nil
 }
